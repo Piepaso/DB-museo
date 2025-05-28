@@ -1,0 +1,34 @@
+Il contesto del progetto riguarda la digitalizzazione e gestione di un museo, strutturato in sezioni e sale con capienze definite. Il sistema gestisce le opere d’arte, associate a specifici autori e movimenti artistici, includendo la possibilità di registrare i restauri in programma e visualizzarne uno storico.
+Inoltre, permette l’acquisto di biglietti personalizzati per sezioni o visite guidate, garantendo il rispetto dei limiti di affluenza. Infine, il sistema prevede  l’amministrazione avanzata per l’inserimento, modifica o eliminazione di entità e la visualizzazione di statistiche relative all’affluenza.
+
+L’obiettivo è realizzare una piattaforma che gestisca:
+
+1. Struttura del museo  
+   - Il museo è suddiviso in sezioni, e ogni sezione comprende una o più sale.  
+   - Ogni sala ha una capienza massima (numero massimo di visitatori) valida per una determinata fascia oraria.  
+   - Le sezioni hanno anch’esse un limite globale di posti disponibili per fascia oraria.
+
+2. Opere  
+   - Ogni opera è associata a un autore, il quale appartiene a un movimento artistico (ad esempio, Rinascimento, Barocco, Impressionismo, ecc.).  
+   - Alcune opere possono essere temporaneamente in restauro, quindi è necessario poter visualizzare quali opere in una sala/sezione non sono disponibili alla visita.
+
+3. Visite guidate
+   - Il museo organizza visite guidate con guide specializzate in determinati movimenti artistici
+   - Le visite guidate hanno luogo in determinate date e orari e hanno un limite di partecipanti.  
+
+
+4. Biglietti e visitatori  
+   - Un visitatore può acquistare uno o più biglietti per un determinato giorno/ora, selezionando le sezioni che desidera visitare.
+   - Il biglietto, dunque, è flessibile: si possono selezionare le sezioni di interesse o filtrare in base a un autore. Ad esempio, “visualizzare tutte le sezioni in cui è presente almeno un’opera di Caravaggio”.
+   - Il sistema deve sempre tenere conto delle capienze massime, in modo da non consentire l’acquisto di biglietti che superino i limiti previsti.  
+   - In alternativa, il visitatore può acquistare un biglietto per una visita guidata, con la possibilità di visualizzare un calendario di quelle programmate che non siano già piene.
+
+
+
+5. Amministrazione  
+   Gli operatori o amministratori del sistema possono:  
+     - Inserire, modificare o eliminare sezioni, sale, opere, autori, movimenti artistici.  
+     - Impostare o modificare le regole di capienza e gli orari di apertura.
+     - Gestire il sistema delle visite guidate (crearle, modificarle, eliminare).  
+     - Visualizzare statistiche sull’affluenza e sui biglietti venduti.
+     - Visualizzare uno storico dei restauri effettuati su un’opera.
