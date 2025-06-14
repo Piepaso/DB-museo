@@ -3,9 +3,9 @@
 -- *--------------------------------------------
 -- * DB-MAIN version: 11.0.2              
 -- * Generator date: Sep 14 2021              
--- * Generation date: Mon Jun  9 12:16:08 2025 
--- * LUN file: C:\Users\Pietro\Desktop\DB-museo\ER_lgico
--- * Schema: museo 
+-- * Generation date: Sat Jun 14 10:24:24 2025 
+-- * LUN file: C:\Users\Pietro\Desktop\DB-museo\ER_lgico - Copy.lun 
+-- * Schema: museo/1 
 -- ********************************************* 
 
 
@@ -24,6 +24,13 @@ create table ACCESSO (
      nomeSezione char(1) not null,
      constraint ID_ACCESSO_ID primary key (idBiglietto, nomeSezione));
 
+create table ANAGRAFICA (
+     nome char(1) not null,
+     cognome char(1) not null,
+     dataDiNascita date not null,
+     CodiceFiscale char(1) not null,
+     constraint ID_ANAGRAFICA_ID primary key (CodiceFiscale));
+
 create table AUTORE (
      nomeDArte char(1) not null,
      nomeCompleto char(1),
@@ -40,30 +47,27 @@ create table BIGLIETTO_ACQUISTATO (
      ingressoAvvenuto char not null,
      perVisita char(1) not null,
      categoriaBiglietto char(1) not null,
-     codiceFiscaleVis char(1) not null,
-     codiceFiscaleGuida char(1),
-     dataVisita date,
+     CodiceFiscale char(1) not null,
+     Pre_CodiceFiscale char(1),
+     Pre_dataVisita date,
      constraint ID_BIGLIETTO_ACQUISTATO_ID primary key (idBiglietto));
 
 create table CONOSCENZA (
      ID_LIN int not null,
-     codiceFiscaleGuida char(1) not null,
-     constraint ID_CONOSCENZA_ID primary key (codiceFiscaleGuida, ID_LIN));
+     CodiceFiscale char(1) not null,
+     constraint ID_CONOSCENZA_ID primary key (CodiceFiscale, ID_LIN));
 
 create table EFFETUAZIONE (
-     codiceFiscaleRes char(1) not null,
+     CodiceFiscale char(1) not null,
      idOpera char(1) not null,
      dataInizio date not null,
-     constraint ID_EFFETUAZIONE_ID primary key (codiceFiscaleRes, idOpera, dataInizio));
+     constraint ID_EFFETUAZIONE_ID primary key (CodiceFiscale, idOpera, dataInizio));
 
 create table GUIDA (
-     nomeGuida char(1) not null,
-     cognomeGuida char(1) not null,
-     dataDiNascitaGuida char(1) not null,
-     codiceFiscaleGuida char(1) not null,
+     CodiceFiscale char(1) not null,
      biografia char(1) not null,
      nomeMovimento char(1) not null,
-     constraint ID_GUIDA_ID primary key (codiceFiscaleGuida));
+     constraint FKR_10_ID primary key (CodiceFiscale));
 
 create table LINGUA (
      ID_LIN int not null auto_increment,
@@ -81,18 +85,16 @@ create table OPERA (
      dataCompletamento char(1) not null,
      nomeOpera char(1) not null,
      nomeDArte char(1) not null,
+     nomeCategoria char(1) not null,
      nomeSezione char(1) not null,
      numeroSala char(1) not null,
      constraint ID_OPERA_ID primary key (idOpera));
 
 create table RESTAURATORE (
-     nomeRes char(1) not null,
-     cognomeRes char(1) not null,
-     dataDiNascitaRes char(1) not null,
-     codiceFiscaleRes char(1) not null,
+     CodiceFiscale char(1) not null,
      formazione char(1) not null,
      telefono char(1) not null,
-     constraint ID_RESTAURATORE_ID primary key (codiceFiscaleRes));
+     constraint FKR_8_ID primary key (CodiceFiscale));
 
 create table RESTAURO (
      idOpera char(1) not null,
@@ -115,9 +117,9 @@ create table SEZIONE (
      constraint ID_SEZIONE_ID primary key (nomeSezione));
 
 create table SPECIALIZZAZIONE (
-     codiceFiscaleRes char(1) not null,
+     CodiceFiscale char(1) not null,
      nomeCategoria char(1) not null,
-     constraint ID_SPECIALIZZAZIONE_ID primary key (codiceFiscaleRes, nomeCategoria));
+     constraint ID_SPECIALIZZAZIONE_ID primary key (CodiceFiscale, nomeCategoria));
 
 create table TIPO_BIGLIETTO (
      fattorePrezzo int not null,
@@ -127,26 +129,22 @@ create table TIPO_BIGLIETTO (
 create table TIPO_OPERA (
      nomeCategoria char(1) not null,
      descrizione char(1) not null,
-     idOpera char(1) not null,
      constraint ID_TIPO_OPERA_ID primary key (nomeCategoria));
 
 create table VISITA_GUIDATA (
-     codiceFiscaleGuida char(1) not null,
+     CodiceFiscale char(1) not null,
      numeroPosti int not null,
      dataVisita date not null,
      prezzoVisita int not null,
      oraInizio int not null,
      oraFine int not null,
      ID_LIN int not null,
-     constraint ID_VISITA_GUIDATA_ID primary key (codiceFiscaleGuida, dataVisita));
+     constraint ID_VISITA_GUIDATA_ID primary key (CodiceFiscale, dataVisita));
 
 create table VISITATORE (
-     nomeVis char(1) not null,
-     cognomeVis char(1) not null,
-     dataDiNascitaVis char(1) not null,
-     codiceFiscaleVis char(1) not null,
+     CodiceFiscale char(1) not null,
      e_mail char(1) not null,
-     constraint ID_VISITATORE_ID primary key (codiceFiscaleVis));
+     constraint FKR_9_ID primary key (CodiceFiscale));
 
 
 -- Constraints Section
@@ -169,20 +167,20 @@ alter table BIGLIETTO_ACQUISTATO add constraint FKriferimento_FK
      references TIPO_BIGLIETTO (categoriaBiglietto);
 
 alter table BIGLIETTO_ACQUISTATO add constraint FKpossesso_FK
-     foreign key (codiceFiscaleVis)
-     references VISITATORE (codiceFiscaleVis);
+     foreign key (CodiceFiscale)
+     references VISITATORE (CodiceFiscale);
 
 alter table BIGLIETTO_ACQUISTATO add constraint FKprenotazione_FK
-     foreign key (codiceFiscaleGuida, dataVisita)
-     references VISITA_GUIDATA (codiceFiscaleGuida, dataVisita);
+     foreign key (Pre_CodiceFiscale, Pre_dataVisita)
+     references VISITA_GUIDATA (CodiceFiscale, dataVisita);
 
 alter table BIGLIETTO_ACQUISTATO add constraint FKprenotazione_CHK
-     check((codiceFiscaleGuida is not null and dataVisita is not null)
-           or (codiceFiscaleGuida is null and dataVisita is null)); 
+     check((Pre_CodiceFiscale is not null and Pre_dataVisita is not null)
+           or (Pre_CodiceFiscale is null and Pre_dataVisita is null)); 
 
 alter table CONOSCENZA add constraint FKR_6
-     foreign key (codiceFiscaleGuida)
-     references GUIDA (codiceFiscaleGuida);
+     foreign key (CodiceFiscale)
+     references GUIDA (CodiceFiscale);
 
 alter table CONOSCENZA add constraint FKR_7_FK
      foreign key (ID_LIN)
@@ -193,13 +191,17 @@ alter table EFFETUAZIONE add constraint FKR_3_FK
      references RESTAURO (idOpera, dataInizio);
 
 alter table EFFETUAZIONE add constraint FKR_2
-     foreign key (codiceFiscaleRes)
-     references RESTAURATORE (codiceFiscaleRes);
+     foreign key (CodiceFiscale)
+     references RESTAURATORE (CodiceFiscale);
 
 -- Not implemented
--- alter table GUIDA add constraint ID_GUIDA_CHK
+-- alter table GUIDA add constraint FKR_10_CHK
 --     check(exists(select * from CONOSCENZA
---                  where CONOSCENZA.codiceFiscaleGuida = codiceFiscaleGuida)); 
+--                  where CONOSCENZA.CodiceFiscale = CodiceFiscale)); 
+
+alter table GUIDA add constraint FKR_10_FK
+     foreign key (CodiceFiscale)
+     references ANAGRAFICA (CodiceFiscale);
 
 alter table GUIDA add constraint FKcompetenza_FK
      foreign key (nomeMovimento)
@@ -209,14 +211,22 @@ alter table OPERA add constraint FKrealizzazione_FK
      foreign key (nomeDArte)
      references AUTORE (nomeDArte);
 
+alter table OPERA add constraint FKclassificazione_FK
+     foreign key (nomeCategoria)
+     references TIPO_OPERA (nomeCategoria);
+
 alter table OPERA add constraint FKpresenza_FK
      foreign key (nomeSezione, numeroSala)
      references SALA (nomeSezione, numeroSala);
 
 -- Not implemented
--- alter table RESTAURATORE add constraint ID_RESTAURATORE_CHK
+-- alter table RESTAURATORE add constraint FKR_8_CHK
 --     check(exists(select * from SPECIALIZZAZIONE
---                  where SPECIALIZZAZIONE.codiceFiscaleRes = codiceFiscaleRes)); 
+--                  where SPECIALIZZAZIONE.CodiceFiscale = CodiceFiscale)); 
+
+alter table RESTAURATORE add constraint FKR_8_FK
+     foreign key (CodiceFiscale)
+     references ANAGRAFICA (CodiceFiscale);
 
 -- Not implemented
 -- alter table RESTAURO add constraint ID_RESTAURO_CHK
@@ -241,25 +251,25 @@ alter table SPECIALIZZAZIONE add constraint FKR_5_FK
      references TIPO_OPERA (nomeCategoria);
 
 alter table SPECIALIZZAZIONE add constraint FKR_4
-     foreign key (codiceFiscaleRes)
-     references RESTAURATORE (codiceFiscaleRes);
-
-alter table TIPO_OPERA add constraint FKclassificazione_FK
-     foreign key (idOpera)
-     references OPERA (idOpera);
+     foreign key (CodiceFiscale)
+     references RESTAURATORE (CodiceFiscale);
 
 alter table VISITA_GUIDATA add constraint FKconduzione
-     foreign key (codiceFiscaleGuida)
-     references GUIDA (codiceFiscaleGuida);
+     foreign key (CodiceFiscale)
+     references GUIDA (CodiceFiscale);
 
 alter table VISITA_GUIDATA add constraint FKcomunicazione_FK
      foreign key (ID_LIN)
      references LINGUA (ID_LIN);
 
 -- Not implemented
--- alter table VISITATORE add constraint ID_VISITATORE_CHK
+-- alter table VISITATORE add constraint FKR_9_CHK
 --     check(exists(select * from BIGLIETTO_ACQUISTATO
---                  where BIGLIETTO_ACQUISTATO.codiceFiscaleVis = codiceFiscaleVis)); 
+--                  where BIGLIETTO_ACQUISTATO.CodiceFiscale = CodiceFiscale)); 
+
+alter table VISITATORE add constraint FKR_9_FK
+     foreign key (CodiceFiscale)
+     references ANAGRAFICA (CodiceFiscale);
 
 
 -- Index Section
@@ -270,6 +280,9 @@ create unique index ID_ACCESSO_IND
 
 create index FKR_1_IND
      on ACCESSO (nomeSezione);
+
+create unique index ID_ANAGRAFICA_IND
+     on ANAGRAFICA (CodiceFiscale);
 
 create unique index ID_AUTORE_IND
      on AUTORE (nomeDArte);
@@ -284,25 +297,25 @@ create index FKriferimento_IND
      on BIGLIETTO_ACQUISTATO (categoriaBiglietto);
 
 create index FKpossesso_IND
-     on BIGLIETTO_ACQUISTATO (codiceFiscaleVis);
+     on BIGLIETTO_ACQUISTATO (CodiceFiscale);
 
 create index FKprenotazione_IND
-     on BIGLIETTO_ACQUISTATO (codiceFiscaleGuida, dataVisita);
+     on BIGLIETTO_ACQUISTATO (Pre_CodiceFiscale, Pre_dataVisita);
 
 create unique index ID_CONOSCENZA_IND
-     on CONOSCENZA (codiceFiscaleGuida, ID_LIN);
+     on CONOSCENZA (CodiceFiscale, ID_LIN);
 
 create index FKR_7_IND
      on CONOSCENZA (ID_LIN);
 
 create unique index ID_EFFETUAZIONE_IND
-     on EFFETUAZIONE (codiceFiscaleRes, idOpera, dataInizio);
+     on EFFETUAZIONE (CodiceFiscale, idOpera, dataInizio);
 
 create index FKR_3_IND
      on EFFETUAZIONE (idOpera, dataInizio);
 
-create unique index ID_GUIDA_IND
-     on GUIDA (codiceFiscaleGuida);
+create unique index FKR_10_IND
+     on GUIDA (CodiceFiscale);
 
 create index FKcompetenza_IND
      on GUIDA (nomeMovimento);
@@ -319,11 +332,14 @@ create unique index ID_OPERA_IND
 create index FKrealizzazione_IND
      on OPERA (nomeDArte);
 
+create index FKclassificazione_IND
+     on OPERA (nomeCategoria);
+
 create index FKpresenza_IND
      on OPERA (nomeSezione, numeroSala);
 
-create unique index ID_RESTAURATORE_IND
-     on RESTAURATORE (codiceFiscaleRes);
+create unique index FKR_8_IND
+     on RESTAURATORE (CodiceFiscale);
 
 create unique index ID_RESTAURO_IND
      on RESTAURO (idOpera, dataInizio);
@@ -335,7 +351,7 @@ create unique index ID_SEZIONE_IND
      on SEZIONE (nomeSezione);
 
 create unique index ID_SPECIALIZZAZIONE_IND
-     on SPECIALIZZAZIONE (codiceFiscaleRes, nomeCategoria);
+     on SPECIALIZZAZIONE (CodiceFiscale, nomeCategoria);
 
 create index FKR_5_IND
      on SPECIALIZZAZIONE (nomeCategoria);
@@ -346,15 +362,12 @@ create unique index ID_TIPO_BIGLIETTO_IND
 create unique index ID_TIPO_OPERA_IND
      on TIPO_OPERA (nomeCategoria);
 
-create index FKclassificazione_IND
-     on TIPO_OPERA (idOpera);
-
 create unique index ID_VISITA_GUIDATA_IND
-     on VISITA_GUIDATA (codiceFiscaleGuida, dataVisita);
+     on VISITA_GUIDATA (CodiceFiscale, dataVisita);
 
 create index FKcomunicazione_IND
      on VISITA_GUIDATA (ID_LIN);
 
-create unique index ID_VISITATORE_IND
-     on VISITATORE (codiceFiscaleVis);
+create unique index FKR_9_IND
+     on VISITATORE (CodiceFiscale);
 
