@@ -1,138 +1,126 @@
--- *********************************************
--- * SQL MySQL generation                      
--- *--------------------------------------------
--- * DB-MAIN version: 11.0.2              
--- * Generator date: Sep 14 2021              
--- * Generation date: Sat Jun 14 10:24:24 2025 
--- * LUN file: C:\Users\Pietro\Desktop\DB-museo\ER_lgico - Copy.lun 
--- * Schema: museo/1 
--- ********************************************* 
-
-
 -- Database Section
 -- ________________ 
 
 create database museo;
 use museo;
 
-
 -- Tables Section
 -- _____________ 
 
 create table ACCESSO (
-     idBiglietto char(1) not null,
-     nomeSezione char(1) not null,
+     idBiglietto varchar(10) not null,
+     nomeSezione varchar(50) not null,
      constraint ID_ACCESSO_ID primary key (idBiglietto, nomeSezione));
 
 create table ANAGRAFICA (
-     nome char(1) not null,
-     cognome char(1) not null,
+     nome varchar(50) not null,
+     cognome varchar(50) not null,
      dataDiNascita date not null,
-     CodiceFiscale char(1) not null,
+     CodiceFiscale char(16) not null,
      constraint ID_ANAGRAFICA_ID primary key (CodiceFiscale));
 
 create table AUTORE (
-     nomeDArte char(1) not null,
-     nomeCompleto char(1),
-     nazionalita char(1),
+     nomeDArte varchar(100) not null,
+     nomeCompleto varchar(100),
+     nazionalita varchar(30),
      dataNascita date,
-     dataMorte char(1),
-     nomeMovimento char(1),
+     dataMorte date,
+     nomeMovimento varchar(50),
      constraint ID_AUTORE_ID primary key (nomeDArte));
 
 create table BIGLIETTO_ACQUISTATO (
-     idBiglietto char(1) not null,
+     idBiglietto varchar(10) not null,
      data_acquisto date not null,
-     dataPerIngresso char(1) not null,
-     ingressoAvvenuto char not null,
-     perVisita char(1) not null,
-     categoriaBiglietto char(1) not null,
-     CodiceFiscale char(1) not null,
-     Pre_CodiceFiscale char(1),
+     dataPerIngresso date not null,
+     ingressoAvvenuto boolean not null,
+     perVisita varchar(20) not null,
+     categoriaBiglietto varchar(20) not null,
+     CodiceFiscale char(16) not null,
+     Pre_CodiceFiscale char(16),
      Pre_dataVisita date,
      constraint ID_BIGLIETTO_ACQUISTATO_ID primary key (idBiglietto));
 
 create table CONOSCENZA (
      ID_LIN int not null,
-     CodiceFiscale char(1) not null,
+     CodiceFiscale char(16) not null,
      constraint ID_CONOSCENZA_ID primary key (CodiceFiscale, ID_LIN));
 
 create table EFFETUAZIONE (
-     CodiceFiscale char(1) not null,
-     idOpera char(1) not null,
+     CodiceFiscale char(16) not null,
+     idOpera varchar(10) not null,
      dataInizio date not null,
      constraint ID_EFFETUAZIONE_ID primary key (CodiceFiscale, idOpera, dataInizio));
 
 create table GUIDA (
-     CodiceFiscale char(1) not null,
-     biografia char(1) not null,
-     nomeMovimento char(1) not null,
+     CodiceFiscale char(16) not null,
+     biografia text not null,
+     nomeMovimento varchar(50) not null,
      constraint FKR_10_ID primary key (CodiceFiscale));
 
 create table LINGUA (
      ID_LIN int not null auto_increment,
-     nomeNativo char(1) not null,
-     nomeInItaliano char(1) not null,
+     nomeNativo varchar(50) not null,
+     nomeInItaliano varchar(50) not null,
      constraint ID_ID primary key (ID_LIN));
 
 create table MOVIMENTO_ARTISTICO (
-     nomeMovimento char(1) not null,
-     secolo char(1) not null,
+     nomeMovimento varchar(50) not null,
+     secolo varchar(10) not null,
      constraint ID_MOVIMENTO_ARTISTICO_ID primary key (nomeMovimento));
 
 create table OPERA (
-     idOpera char(1) not null,
-     dataCompletamento char(1) not null,
-     nomeOpera char(1) not null,
-     nomeDArte char(1) not null,
-     nomeCategoria char(1) not null,
-     nomeSezione char(1) not null,
-     numeroSala char(1) not null,
+     idOpera varchar(10) not null,
+     dataCompletamento varchar(20) not null,
+     nomeOpera varchar(100) not null,
+     nomeDArte varchar(100) not null,
+     nomeCategoria varchar(50) not null,
+     nomeSezione varchar(50) not null,
+     numeroSala varchar(10) not null,
      constraint ID_OPERA_ID primary key (idOpera));
 
 create table RESTAURATORE (
-     CodiceFiscale char(1) not null,
-     formazione char(1) not null,
-     telefono char(1) not null,
+     CodiceFiscale char(16) not null,
+     formazione varchar(100) not null,
+     telefono varchar(20) not null,
      constraint FKR_8_ID primary key (CodiceFiscale));
 
 create table RESTAURO (
-     idOpera char(1) not null,
+     idOpera varchar(10) not null,
      dataInizio date not null,
      dataFine date not null,
-     dettagliRestauro char(1) not null,
+     dettagliRestauro text not null,
      constraint ID_RESTAURO_ID primary key (idOpera, dataInizio));
 
 create table SALA (
-     nomeSezione char(1) not null,
-     numeroSala char(1) not null,
+     nomeSezione varchar(50) not null,
+     numeroSala varchar(10) not null,
      superficie int not null,
      capienza int not null,
      constraint ID_SALA_ID primary key (nomeSezione, numeroSala));
 
 create table SEZIONE (
-     nomeSezione char(1) not null,
+     nomeSezione varchar(50) not null,
      tempoVisita int not null,
      prezzoSezione int not null,
      constraint ID_SEZIONE_ID primary key (nomeSezione));
 
 create table SPECIALIZZAZIONE (
-     CodiceFiscale char(1) not null,
-     nomeCategoria char(1) not null,
+     CodiceFiscale char(16) not null,
+     nomeCategoria varchar(50) not null,
      constraint ID_SPECIALIZZAZIONE_ID primary key (CodiceFiscale, nomeCategoria));
 
 create table TIPO_BIGLIETTO (
      fattorePrezzo int not null,
-     categoriaBiglietto char(1) not null,
+     categoriaBiglietto varchar(20) not null,
      constraint ID_TIPO_BIGLIETTO_ID primary key (categoriaBiglietto));
 
 create table TIPO_OPERA (
-     nomeCategoria char(1) not null,
-     descrizione char(1) not null,
+     nomeCategoria varchar(50) not null,
+     descrizione text not null,
      constraint ID_TIPO_OPERA_ID primary key (nomeCategoria));
 
 create table VISITA_GUIDATA (
-     CodiceFiscale char(1) not null,
+     CodiceFiscale char(16) not null,
      numeroPosti int not null,
      dataVisita date not null,
      prezzoVisita int not null,
@@ -142,10 +130,9 @@ create table VISITA_GUIDATA (
      constraint ID_VISITA_GUIDATA_ID primary key (CodiceFiscale, dataVisita));
 
 create table VISITATORE (
-     CodiceFiscale char(1) not null,
-     e_mail char(1) not null,
+     CodiceFiscale char(16) not null,
+     e_mail varchar(100) not null,
      constraint FKR_9_ID primary key (CodiceFiscale));
-
 
 -- Constraints Section
 -- ___________________ 
