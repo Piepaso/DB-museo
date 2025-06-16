@@ -20,34 +20,34 @@ use museo;
 -- _____________ 
 
 create table ACCESSO (
-     idBiglietto char(1) not null,
-     nomeSezione char(1) not null,
+     idBiglietto VARCHAR(30) not null,
+     nomeSezione VARCHAR(50) not null,
      constraint ID_ACCESSO_ID primary key (idBiglietto, nomeSezione));
 
 create table ANAGRAFICA (
-     nome char(1) not null,
-     cognome char(1) not null,
+     nome VARCHAR(50) not null,
+     cognome VARCHAR(50) not null,
      dataDiNascita date not null,
-     CodiceFiscale char(1) not null,
+     CodiceFiscale VARCHAR(16) not null,
      constraint ID_ANAGRAFICA_ID primary key (CodiceFiscale));
 
 create table AUTORE (
-     nomeDArte char(1) not null,
-     nomeCompleto char(1),
-     nazionalita char(1),
+     nomeDArte VARCHAR(50) not null,
+     nomeCompleto VARCHAR(100),
+     nazionalita VARCHAR(30),
      dataNascita date,
-     dataMorte char(1),
-     nomeMovimento char(1),
+     dataMorte DATE,
+     nomeMovimento VARCHAR(50),
      constraint ID_AUTORE_ID primary key (nomeDArte));
 
 create table BIGLIETTO_ACQUISTATO (
-     idBiglietto char(1) not null,
+     idBiglietto VARCHAR(30) not null,
      data_acquisto date not null,
-     dataPerIngresso char(1) not null,
-     ingressoAvvenuto char not null,
-     perVisita char(1) not null,
-     categoriaBiglietto char(1) not null,
-     email char(1) not null,
+     dataPerIngresso DATE not null,
+     ingressoAvvenuto CHAR(1) not null,
+     perVisita VARCHAR(30) not null,
+     categoriaBiglietto VARCHAR(30) not null,
+     email VARCHAR(100) not null,
      NumeroBadge int,
      dataVisita date,
      constraint ID_BIGLIETTO_ACQUISTATO_ID primary key (idBiglietto));
@@ -59,80 +59,80 @@ create table CONOSCENZA (
 
 create table EFFETUAZIONE (
      matricola int not null,
-     idOpera char(1) not null,
+     idOpera VARCHAR(30) not null,
      dataInizio date not null,
      constraint ID_EFFETUAZIONE_ID primary key (matricola, idOpera, dataInizio));
 
 create table GUIDA (
      NumeroBadge int not null,
-     CodiceFiscale char(1) not null,
-     biografia char(1) not null,
-     nomeMovimento char(1) not null,
+     CodiceFiscale VARCHAR(16) not null,
+     biografia VARCHAR(255) not null,
+     nomeMovimento VARCHAR(50) not null,
      constraint ID_GUIDA_ID primary key (NumeroBadge),
      constraint FKR_10_ID unique (CodiceFiscale));
 
 create table LINGUA (
      ID_LIN int not null auto_increment,
-     nomeNativo char(1) not null,
-     nomeInItaliano char(1) not null,
+     nomeNativo VARCHAR(50) not null,
+     nomeInItaliano VARCHAR(50) not null,
      constraint ID_ID primary key (ID_LIN));
 
 create table MOVIMENTO_ARTISTICO (
-     nomeMovimento char(1) not null,
-     secolo char(1) not null,
+     nomeMovimento VARCHAR(50) not null,
+     secolo VARCHAR(50) not null,
      constraint ID_MOVIMENTO_ARTISTICO_ID primary key (nomeMovimento));
 
 create table OPERA (
-     idOpera char(1) not null,
-     dataCompletamento char(1) not null,
-     nomeOpera char(1) not null,
-     nomeDArte char(1) not null,
-     nomeCategoria char(1) not null,
-     nomeSezione char(1) not null,
-     numeroSala char(1) not null,
+     idOpera VARCHAR(30) not null,
+     dataCompletamento VARCHAR(50) not null,
+     nomeOpera VARCHAR(100) not null,
+     nomeDArte VARCHAR(50) not null,
+     nomeCategoria VARCHAR(30) not null,
+     nomeSezione VARCHAR(50) not null,
+     numeroSala VARCHAR(10) not null,
      constraint ID_OPERA_ID primary key (idOpera));
 
 create table RESTAURATORE (
      matricola int not null,
-     CodiceFiscale char(1) not null,
-     formazione char(1) not null,
-     telefono char(1) not null,
+     CodiceFiscale VARCHAR(16) not null,
+     formazione VARCHAR(100) not null,
+     telefono VARCHAR(20) not null,
      constraint ID_RESTAURATORE_ID primary key (matricola),
      constraint FKR_8_ID unique (CodiceFiscale));
 
 create table RESTAURO (
-     idOpera char(1) not null,
+     idOpera VARCHAR(30) not null,
      dataInizio date not null,
      dataFine date not null,
-     dettagliRestauro char(1) not null,
+     dettagliRestauro VARCHAR(255) not null,
      constraint ID_RESTAURO_ID primary key (idOpera, dataInizio));
 
 create table SALA (
-     nomeSezione char(1) not null,
-     numeroSala char(1) not null,
+     nomeSezione VARCHAR(50) not null,
+     numeroSala VARCHAR(10) not null,
      superficie int not null,
      capienza int not null,
      constraint ID_SALA_ID primary key (nomeSezione, numeroSala));
 
 create table SEZIONE (
-     nomeSezione char(1) not null,
+     nomeSezione VARCHAR(50) not null,
      tempoVisita int not null,
      prezzoSezione int not null,
      constraint ID_SEZIONE_ID primary key (nomeSezione));
 
 create table SPECIALIZZAZIONE (
      matricola int not null,
-     nomeCategoria char(1) not null,
+     nomeCategoria VARCHAR(30) not null,
      constraint ID_SPECIALIZZAZIONE_ID primary key (matricola, nomeCategoria));
 
 create table TIPO_BIGLIETTO (
      fattorePrezzo int not null,
-     categoriaBiglietto char(1) not null,
+     categoriaBiglietto VARCHAR(30) not null,
      constraint ID_TIPO_BIGLIETTO_ID primary key (categoriaBiglietto));
 
 create table TIPO_OPERA (
-     nomeCategoria char(1) not null,
-     descrizione char(1) not null,
+     nomeCategoria VARCHAR(30) not null,
+     descrizione VARCHAR(255) not null,
      constraint ID_TIPO_OPERA_ID primary key (nomeCategoria));
 
 create table VISITA_GUIDATA (
@@ -147,8 +147,8 @@ create table VISITA_GUIDATA (
      constraint ID_VISITA_GUIDATA_ID primary key (NumeroBadge, dataVisita));
 
 create table VISITATORE (
-     email char(1) not null,
-     CodiceFiscale char(1) not null,
+     email VARCHAR(100) not null,
+     CodiceFiscale VARCHAR(16) not null,
      constraint ID_VISITATORE_ID primary key (email),
      constraint FKR_9_ID unique (CodiceFiscale));
 
@@ -162,7 +162,8 @@ alter table ACCESSO add constraint FKR_1_FK
 
 alter table ACCESSO add constraint FKR
      foreign key (idBiglietto)
-     references BIGLIETTO_ACQUISTATO (idBiglietto);
+     references BIGLIETTO_ACQUISTATO (idBiglietto)
+     on delete CASCADE;
 
 alter table AUTORE add constraint FKadesione_FK
      foreign key (nomeMovimento)

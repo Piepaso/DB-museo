@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}Gestione Museo{% endblock %}</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body>
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+        <div class="container">
+            <a class="navbar-brand" href="{{ url_for('index') }}">Gestione Museo</a>
+            <div class="navbar-nav">
+                <div class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown">
+                        Scelta Biglietto
+                    </a>
+                    <ul class="dropdown-menu">
+                        <li><a class="dropdown-item" href="{{ url_for('opere_per_sezione') }}">Opere per Sezione</a></li>
+                        <li><a class="dropdown-item" href="{{ url_for('sezioni_disponibili') }}">Sezioni Disponibili</a></li>
+                        <li><a class="dropdown-item" href="{{ url_for('sezioni_per_autore') }}">Sezioni per Autore</a></li>
+                        <li><a class="dropdown-item" href="{{ url_for('sezione_opera') }}">Sezione dell'Opera</a></li>
+                        <li><a class="dropdown-item" href="{{ url_for('visite_guidate') }}">Visite Guidate</a></li>
+                        <li><a class="dropdown-item" href="{{ url_for('autori_per_guida') }}">Autori per Guida</a></li>
+                    </ul>
+                </div>
+                <div class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown">
+                        Acquisto Biglietto
+                    </a>
+                    <ul class="dropdown-menu">
+                        <li><a class="dropdown-item" href="{{ url_for('registra_visitatore') }}">Registra Visitatore</a></li>
+                        <li><a class="dropdown-item" href="{{ url_for('modifica_email') }}">Modifica Email</a></li>
+                        <li><a class="dropdown-item" href="{{ url_for('acquista_biglietto') }}">Acquista Biglietto</a></li>
+                        <li><a class="dropdown-item" href="{{ url_for('timbra_biglietto') }}">Timbra Biglietto</a></li>
+                    </ul>
+                </div>
+                <div class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown">
+                        Amministrazione
+                    </a>
+                    <ul class="dropdown-menu">
+                        <li><a class="dropdown-item" href="{{ url_for('programma_restauro') }}">Programma Restauro</a></li>
+                        <li><a class="dropdown-item" href="{{ url_for('programma_visita_guidata') }}">Programma Visita</a></li>
+                        <li><a class="dropdown-item" href="{{ url_for('annulla_visita_guidata') }}">Annulla Visita</a></li>
+                        <li><a class="dropdown-item" href="{{ url_for('restauratori_restauro') }}">Restauratori</a></li>
+                        <li><a class="dropdown-item" href="{{ url_for('biglietti_timbrati') }}">Biglietti Timbrati</a></li>
+                        <li><a class="dropdown-item" href="{{ url_for('visite_guidate_concluse') }}">Visite Concluse</a></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <div class="container mt-4">
+        {% with messages = get_flashed_messages(with_categories=true) %}
+            {% if messages %}
+                {% for category, message in messages %}
+                    <div class="alert alert-{{ 'danger' if category == 'error' else 'success' }} alert-dismissible fade show">
+                        {{ message }}
+                        <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+                    </div>
+                {% endfor %}
+            {% endif %}
+        {% endwith %}
+
+        {% block content %}{% endblock %}
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
